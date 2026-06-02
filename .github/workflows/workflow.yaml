@@ -1,0 +1,70 @@
+name: CI kubeDocss
+
+on:
+  push:
+    paths-ignore:
+      - 'exports/**'
+
+permissions:
+  contents: write
+
+jobs:
+  kubeDocss:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Install ImageMagick
+      run: sudo apt-get install -y imagemagick
+
+    - name: prep
+      run: mkdir -p ./exports
+
+
+    - name: Export as PNG
+      uses: rlespinasse/drawio-export-action@v2
+      with:
+        path: .
+        format: png
+        output: exports
+        action-mode: all
+        scale: 4
+
+    - name: Export as SVG
+      uses: rlespinasse/drawio-export-action@v2
+      with:
+        path: .
+        format: svg
+        output: exports
+        action-mode: all
+
+    - name: Export as PDF
+      uses: rlespinasse/drawio-export-action@v2
+      with:
+        path: .
+        format: pdf
+        output: exports
+        action-mode: all
+    - name: Export as jpg
+      uses: rlespinasse/drawio-export-action@v2
+      with:
+        path: .
+        format: jpg
+        output: exports
+        action-mode: all
+    - name: high quality
+      shell: bash
+      run: |
+        cd exports
+        for f in $(ls *.png); do
+          convert "$f" -compress lzw "${f%.png}.tiff"
+        done
+        cd ..
+    - name: Commit and push exports
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git add exports/
+        git diff --staged --quiet || git commit -m "chore: update draw.io exports"
+        git push

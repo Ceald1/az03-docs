@@ -8,12 +8,17 @@
 ![aa](./exports/HarvesterDocs-Page-1.png)
 
 ## Production Cluster
-* Kubernetes cluster for all containers. 
+* Kubernetes cluster for all containers.
+* Keys stored, backedup, and managed on Next Cloud inside of a VM.
 * Things like CTFs will be hosted in this cluster or containers for events and other critical infrastructure that can be containers.
 
 ### Cluster Nodes
 ![aa](./exports/prodCluster-Page-1.png)
 * KubeVIP will serve as a load balancer to ensure cluster high availability
-* K3S would be the best distribution for this setup with local path storage class.
-* RKE2 could be supplemented instead if optimal/needed for more customization.
+* Talos will be used for stability and atomicity as well as ease for rolling back updates
+
+### Key management
+![aa](./exports/KeyManagement-Page1.png)
+* Keys will be stored on nextcloud as a backup when keys get lost
+* Oauth with itatem will be used as a source of truth to allow existing voluenteers with itatem accounts to access their keys if lost.
 

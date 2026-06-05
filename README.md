@@ -18,7 +18,7 @@
 * Talos will be used for stability and atomicity as well as ease for rolling back updates
 
 ### Key management
-![aa](./exports/KeyManagement-Page1.png)
+![aa](./exports/KeyManagement-Page-1.png)
 * Keys will be stored on nextcloud as a backup when keys get lost
 * Oauth with itatem will be used as a source of truth to allow existing voluenteers with itatem accounts to access their keys if lost.
 * Nexcloud will be a virtual machine inside of harvester or on a completely seperate server.
